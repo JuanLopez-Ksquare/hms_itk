@@ -17,8 +17,9 @@ interface User {
   id: number; //This is gonna be the primary key and its gonna be Auto Incremental
   email: string; //varchar(100)
   password: string; //varchar(20)
-  created_on: string; //TIMESTAMP
-  last_login: string; //TIMESTAMP
+  createdOn: string; //TIMESTAMP
+  lastLogin: string; //TIMESTAMP
+  isDeleted: boolean;
   role: Role; //Varchar(20)
 }
 ```
@@ -29,10 +30,11 @@ In this model we're gonna be handling the data of the people in the system witho
 
 ```ts
 interface Profile {
-  idUser: number; //Foreign key and Primary Key of the User table
+  id: number; //Primary Key of the User table
+  idUser: number; //Foreign Key of the user table
   name: string; //Identifier for the user
-  last_name: string; // Idenfier for the user
-  phone_number: string; // Contact info that we're probably gonna need in the system
+  lastName: string; // Idenfier for the user
+  phoneNumber: string; // Contact info that we're probably gonna need in the system
 }
 ```
 
@@ -43,7 +45,7 @@ In this model we're handling the especific data of the patient so here we can ge
 ```ts
 interface Patient {
   id: number; //Primary key autoincremental
-  idUser: number; //ForeignKey from the profile model
+  idProfile: number; //ForeignKey from the profile model
   medicalHistory: MedicalHistory; //
 }
 ```
@@ -55,8 +57,9 @@ In this model we're handling the especific data of the doctor so here we can get
 ```ts
 interface Doctor {
   id: number; //Primary key autoincremental
-  idUser: number; //ForeignKey from the profile model
+  idProfile: number; //ForeignKey from the profile model
   especialization: string; //varchar(50)
+  professionalLicence: string;
 }
 ```
 
@@ -66,7 +69,8 @@ In this model we're handling the patient medical conditions that he can have, ho
 
 ```ts
 interface Medical History {
-  idPatient : number //Foreign and Primary Key
+  id : number; //Primary key
+  idPatient : number //Foreign Key
   conditions...,
 }
 ```
@@ -80,7 +84,9 @@ interface Appointments {
   id: number; //Primary key, autoincremental
   idPatient: number; //Foreign key of the User table
   idDoctor: number; //Foreign key of the User table
-  created_on: string; //TIMESTAMP
+  createdOn: string; //TIMESTAMP
   date: string; //TIMESTAMP
+  motive: string; //varchar(200)
+  isActive: boolean; //boolean
 }
 ```
