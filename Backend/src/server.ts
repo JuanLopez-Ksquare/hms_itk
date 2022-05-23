@@ -1,10 +1,14 @@
 import express, {Request, Response} from "express";
+import * as admin from "firebase-admin";
 import dotenv from "dotenv";
 import {initSequelize} from "./models/index"
+import { UserRouter } from "./routes/Users.routes";
 
 dotenv.config();
 
 const app = express();
+
+admin.initializeApp();
 
 const port = process.env.PORT;
 const db_name = <string>process.env.DB_NAME;
@@ -14,6 +18,9 @@ const db_hostname = <string>process.env.DB_HOSTNAME;
 
 //Middleware
 app.use(express.json());
+
+//Routes
+app.use("/users",UserRouter)
 
 
 app.listen(port, () =>{
