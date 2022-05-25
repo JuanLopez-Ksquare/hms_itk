@@ -25,7 +25,8 @@ const mapToUser = (user: admin.auth.UserRecord) => {
   };
 };
 
-export const createUser = async (
+//This methos is used to create a new user Patient
+export const createUserPatient = async (
   email: string,
   password: string,
   role: Role,
@@ -36,9 +37,27 @@ export const createUser = async (
     password
   });
   await admin.auth().setCustomUserClaims(uid, { role, isDisabled });
-  return uid;
+
+  const user = readUser(uid);
+
+  return user;
 };
 
+export const createUserDoctor = async (
+  email: string,
+  password: string,
+  role: Role,
+  isDisabled: boolean
+) => {
+  const { uid } = await admin.auth().createUser({
+    email,
+    password
+  });
+  await admin.auth().setCustomUserClaims(uid, { role, isDisabled });
+
+  const user = readUser(uid);
+  return user;
+};
 // UserProfileModule -> CRU
 // MedicalHistoryModule -> CRU
 // ContactInfoModule -> CRU

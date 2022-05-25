@@ -15,16 +15,16 @@ const methods_1 = require("../firebase/methods");
 const hasRole_1 = require("../middlewares/hasRole");
 const isAuthenticated_1 = require("../middlewares/isAuthenticated");
 exports.UserRouter = (0, express_1.Router)();
-exports.UserRouter.post("/create", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { email, password, role } = req.body;
-    if (!email || !password || !role) {
+exports.UserRouter.post("/createPatient", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
+    if (!email || !password) {
         return res.status(400).send({ error: "Missing fields" });
     }
-    if (role === "admin" || role === "doctor") {
+    /*   if (role === "admin" || role === "doctor") {
         return res.status(400).send({ error: "Invalid role" });
-    }
+      } */
     try {
-        const userId = yield (0, methods_1.createUser)(email, password, role, false);
+        const userId = yield (0, methods_1.createUserPatient)(email, password, "patient", false);
         res.status(201).send({
             userId
         });
@@ -34,6 +34,21 @@ exports.UserRouter.post("/create", (req, res) => __awaiter(void 0, void 0, void 
     }
 }));
 // createDoctor - Authenticado y el rol debe ser admin
+exports.UserRouter.post("/createDoctor", isAuthenticated_1.isAuthenticated, (0, hasRole_1.hasRole)({ roles: ["admin"], allowSameUser: false }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).send({ error: "Missing fields" });
+    }
+    try {
+        const userId = yield (0, methods_1.createUserDoctor)(email, password, "doctor", false);
+        res.status(201).send({
+            userId
+        });
+    }
+    catch (error) {
+        res.status(500).send({ error });
+    }
+}));
 exports.UserRouter.get("/:userId", isAuthenticated_1.isAuthenticated, (0, hasRole_1.hasRole)({
     roles: ["admin"],
     allowSameUser: true,
@@ -87,19 +102,13 @@ exports.UserRouter.get("/", isAuthenticated_1.isAuthenticated, (0, hasRole_1.has
     }
   }
 ); */
-exports.UserRouter.delete("/:userId", isAuthenticated_1.isAuthenticated, (0, hasRole_1.hasRole)({
+exports.UserRouter.delete("/disable/:userId", isAuthenticated_1.isAuthenticated, (0, hasRole_1.hasRole)({
     roles: ["admin"],
     allowSameUser: true,
 }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { userId } = req.params;
-    const { disabled } = req.body;
-    if (disabled === undefined || disabled === null) {
-        return res.status(400).send({
-            error: "no fields to update",
-        });
-    }
     try {
-        const user = yield (0, methods_1.disableUser)(userId, disabled);
+        const user = yield (0, methods_1.disableUser)(userId, true);
         return res.status(200).send(user);
     }
     catch (error) {

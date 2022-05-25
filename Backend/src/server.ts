@@ -3,12 +3,14 @@ import * as admin from "firebase-admin";
 import dotenv from "dotenv";
 import {initSequelize} from "./models/index"
 import { UserRouter } from "./routes/Users.routes";
+import { ProfileRouter } from "./routes/Profile.routes";
 
 dotenv.config();
 
 const app = express();
 
 admin.initializeApp();
+
 
 const port = process.env.PORT;
 const db_name = <string>process.env.DB_NAME;
@@ -20,7 +22,8 @@ const db_hostname = <string>process.env.DB_HOSTNAME;
 app.use(express.json());
 
 //Routes
-app.use("/users",UserRouter)
+app.use("/users",UserRouter);
+app.use("/profile",ProfileRouter);
 
 
 app.listen(port, () =>{

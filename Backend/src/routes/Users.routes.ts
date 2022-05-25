@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import {
-  createUser,
+    createUserDoctor,
+  createUserPatient,
   disableUser,
   getAllUsers,
   readUser,
@@ -10,20 +11,20 @@ import { isAuthenticated } from "../middlewares/isAuthenticated";
 
 export const UserRouter = Router();
 
-UserRouter.post("/create", async (req: Request, res: Response) => {
+UserRouter.post("/createPatient", async (req: Request, res: Response) => {
 
-  const { email, password, role } = req.body;
+  const { email, password} = req.body;
 
-  if (!email || !password || !role) {
+  if (!email || !password) {
     return res.status(400).send({ error: "Missing fields" });
   }
 
-  if (role === "admin" || role === "doctor") {
+/*   if (role === "admin" || role === "doctor") {
     return res.status(400).send({ error: "Invalid role" });
-  }
+  } */
 
   try {
-    const userId = await createUser(email, password, role, false);
+    const userId = await createUserPatient(email, password, "patient", false);
     res.status(201).send({
       userId
     });
@@ -33,6 +34,27 @@ UserRouter.post("/create", async (req: Request, res: Response) => {
 });
 
 // createDoctor - Authenticado y el rol debe ser admin
+
+UserRouter.post("/createDoctor",
+isAuthenticated,
+hasRole({roles:["admin"], allowSameUser: false}),
+ async (req: Request, res: Response) => {
+
+    const { email, password} = req.body;
+  
+    if (!email || !password) {
+      return res.status(400).send({ error: "Missing fields" });
+    }
+  
+    try {
+      const userId = await createUserDoctor(email, password,"doctor", false);
+      res.status(201).send({
+        userId
+      });
+    } catch (error) {
+      res.status(500).send({ error });
+    }
+  });
 
 UserRouter.get(
   "/:userId",
@@ -99,7 +121,7 @@ UserRouter.get(
 ); */
 
 UserRouter.delete(
-  "/:userId",
+  "/disable/:userId",
   isAuthenticated,
   hasRole({
     roles: ["admin"],
@@ -107,16 +129,9 @@ UserRouter.delete(
   }),
   async (req: Request, res: Response) => {
     const { userId } = req.params;
-    const { disabled } = req.body;
-
-    if (disabled === undefined || disabled === null) {
-      return res.status(400).send({
-        error: "no fields to update",
-      });
-    }
 
     try {
-      const user = await disableUser(userId, disabled);
+      const user = await disableUser(userId, true);
       return res.status(200).send(user);
     } catch (error) {
       return res.status(500).send({ error: "something went wrong" });
