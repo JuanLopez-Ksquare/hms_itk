@@ -6,7 +6,7 @@ export class Patient extends Model<InferAttributes<Patient>,InferCreationAttribu
     declare id: CreationOptional<number>;
     declare age : number;
     declare gender : string;
-    declare medicalHistory : String;
+    declare medicalHistory : number;
     ProfileId? : number;
     
 }
@@ -21,7 +21,7 @@ export const initPatientModel = (sequelize: Sequelize) => {
             },
             age : DataTypes.INTEGER,
             gender : DataTypes.STRING,
-            medicalHistory : DataTypes.STRING
+            medicalHistory : DataTypes.INTEGER
         },
         {
             sequelize

@@ -14,7 +14,7 @@ export class Appointment extends Model<InferAttributes<Appointment>,InferCreatio
     
 }
 
-export const initDoctorModel = (sequelize: Sequelize) => {
+export const initAppointmentModel = (sequelize: Sequelize) => {
     Appointment.init(
         {
             id:{

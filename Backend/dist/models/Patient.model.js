@@ -15,7 +15,7 @@ const initPatientModel = (sequelize) => {
         },
         age: sequelize_1.DataTypes.INTEGER,
         gender: sequelize_1.DataTypes.STRING,
-        medicalHistory: sequelize_1.DataTypes.STRING
+        medicalHistory: sequelize_1.DataTypes.INTEGER
     }, {
         sequelize
     });

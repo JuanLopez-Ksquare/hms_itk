@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.initDoctorModel = exports.Appointment = void 0;
+exports.initAppointmentModel = exports.Appointment = void 0;
 const sequelize_1 = require("sequelize");
 const Patient_model_1 = require("./Patient.model");
 const Doctor_model_1 = require("./Doctor.model");
 class Appointment extends sequelize_1.Model {
 }
 exports.Appointment = Appointment;
-const initDoctorModel = (sequelize) => {
+const initAppointmentModel = (sequelize) => {
     Appointment.init({
         id: {
             type: sequelize_1.DataTypes.INTEGER,
@@ -24,4 +24,4 @@ const initDoctorModel = (sequelize) => {
     Appointment.belongsTo(Patient_model_1.Patient);
     Appointment.belongsTo(Doctor_model_1.Doctor);
 };
-exports.initDoctorModel = initDoctorModel;
+exports.initAppointmentModel = initAppointmentModel;

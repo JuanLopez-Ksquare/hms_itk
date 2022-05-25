@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import {initSequelize} from "./models/index"
 import { UserRouter } from "./routes/Users.routes";
 import { ProfileRouter } from "./routes/Profile.routes";
+import { PatientRouter } from "./routes/Patient.routes";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(express.json());
 //Routes
 app.use("/users",UserRouter);
 app.use("/profile",ProfileRouter);
+app.use("/patient",PatientRouter)
 
 
 app.listen(port, () =>{
