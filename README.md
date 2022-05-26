@@ -8,11 +8,20 @@ npm install -D
 
 ### Creating the database
 
-You need to log into postgres and create you database with the name of your preference since you are gonna be using it in the env file
+You need to log into postgres and create your database with the name of your preference since you are gonna be using it in the env file
 
 ### Creating the .env file
 
 You will need to create your own .env file with the corresponding variables to be able to access your DBM, if you want to access all the methods you need to add a super user here
+
+The variables you will need are
+
+PORT
+DB_HOSTNAME
+DB_NAME
+DB_USERNAME
+DB_PASSWORD
+SUPER_USER
 
 ### Command to run it
 
