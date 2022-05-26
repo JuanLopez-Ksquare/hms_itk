@@ -16,11 +16,11 @@ You will need to create your own .env file with the corresponding variables to b
 
 The variables you will need are
 
-PORT
-DB_HOSTNAME
-DB_NAME
-DB_USERNAME
-DB_PASSWORD
+PORT,
+DB_HOSTNAME,
+DB_NAME,
+DB_USERNAME,
+DB_PASSWORD,
 SUPER_USER
 
 ### Command to run it
