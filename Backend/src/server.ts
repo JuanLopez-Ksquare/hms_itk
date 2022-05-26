@@ -5,6 +5,8 @@ import {initSequelize} from "./models/index"
 import { UserRouter } from "./routes/Users.routes";
 import { ProfileRouter } from "./routes/Profile.routes";
 import { PatientRouter } from "./routes/Patient.routes";
+import { DoctorRouter } from "./routes/Doctor.routes";
+import { AdminRouter } from "./routes/Admin.routes";
 
 dotenv.config();
 
@@ -25,8 +27,9 @@ app.use(express.json());
 //Routes
 app.use("/users",UserRouter);
 app.use("/profile",ProfileRouter);
-app.use("/patient",PatientRouter)
-
+app.use("/patient",PatientRouter);
+app.use("/doctor", DoctorRouter);
+app.use("/admin", AdminRouter);
 
 app.listen(port, () =>{
     try {

@@ -49,6 +49,22 @@ exports.UserRouter.post("/createDoctor", isAuthenticated_1.isAuthenticated, (0, 
         res.status(500).send({ error });
     }
 }));
+//In this method we can create users via the super user, not even admin can use this method
+exports.UserRouter.post("/createAdmin", isAuthenticated_1.isAuthenticated, (0, hasRole_1.hasRole)({ roles: [""], allowSameUser: false }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.status(400).send({ error: "Missing fields" });
+    }
+    try {
+        const userId = yield (0, methods_1.createUserDoctor)(email, password, "admin", false);
+        res.status(201).send({
+            userId
+        });
+    }
+    catch (error) {
+        res.status(500).send({ error });
+    }
+}));
 exports.UserRouter.get("/:userId", isAuthenticated_1.isAuthenticated, (0, hasRole_1.hasRole)({
     roles: ["admin"],
     allowSameUser: true,
@@ -109,6 +125,19 @@ exports.UserRouter.delete("/disable/:userId", isAuthenticated_1.isAuthenticated,
     const { userId } = req.params;
     try {
         const user = yield (0, methods_1.disableUser)(userId, true);
+        return res.status(200).send(user);
+    }
+    catch (error) {
+        return res.status(500).send({ error: "something went wrong" });
+    }
+}));
+exports.UserRouter.patch("/enable/:userId", isAuthenticated_1.isAuthenticated, (0, hasRole_1.hasRole)({
+    roles: ["admin"],
+    allowSameUser: false,
+}), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { userId } = req.params;
+    try {
+        const user = yield (0, methods_1.disableUser)(userId, false);
         return res.status(200).send(user);
     }
     catch (error) {

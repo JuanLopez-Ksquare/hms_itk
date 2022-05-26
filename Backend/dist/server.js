@@ -33,6 +33,8 @@ const index_1 = require("./models/index");
 const Users_routes_1 = require("./routes/Users.routes");
 const Profile_routes_1 = require("./routes/Profile.routes");
 const Patient_routes_1 = require("./routes/Patient.routes");
+const Doctor_routes_1 = require("./routes/Doctor.routes");
+const Admin_routes_1 = require("./routes/Admin.routes");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 admin.initializeApp();
@@ -47,6 +49,8 @@ app.use(express_1.default.json());
 app.use("/users", Users_routes_1.UserRouter);
 app.use("/profile", Profile_routes_1.ProfileRouter);
 app.use("/patient", Patient_routes_1.PatientRouter);
+app.use("/doctor", Doctor_routes_1.DoctorRouter);
+app.use("/admin", Admin_routes_1.AdminRouter);
 app.listen(port, () => {
     try {
         (0, index_1.initSequelize)(db_name, db_username, db_password, db_hostname);

@@ -1,1 +1,1 @@
-export type Role = "patient" | "admin" | "doctor";
+export type Role = "patient" | "admin" | "doctor" | "";

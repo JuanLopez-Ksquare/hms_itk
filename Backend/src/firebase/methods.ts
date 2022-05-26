@@ -25,7 +25,7 @@ const mapToUser = (user: admin.auth.UserRecord) => {
   };
 };
 
-//This methos is used to create a new user Patient
+//This methos is used to create a new user Patient in Firebase
 export const createUserPatient = async (
   email: string,
   password: string,
@@ -43,6 +43,7 @@ export const createUserPatient = async (
   return user;
 };
 
+//Thiss method creates a new user Doctor in Firebase
 export const createUserDoctor = async (
   email: string,
   password: string,
@@ -56,6 +57,23 @@ export const createUserDoctor = async (
   await admin.auth().setCustomUserClaims(uid, { role, isDisabled });
 
   const user = readUser(uid);
+  return user;
+};
+
+export const createUserAdmin = async (
+  email: string,
+  password: string,
+  role: Role,
+  isDisabled: boolean
+) => {
+  const { uid } = await admin.auth().createUser({
+    email,
+    password
+  });
+  await admin.auth().setCustomUserClaims(uid, { role, isDisabled });
+
+  const user = readUser(uid);
+
   return user;
 };
 // UserProfileModule -> CRU

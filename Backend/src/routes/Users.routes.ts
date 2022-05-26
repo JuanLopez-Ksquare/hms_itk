@@ -55,6 +55,27 @@ hasRole({roles:["admin"], allowSameUser: false}),
       res.status(500).send({ error });
     }
   });
+//In this method we can create users via the super user, not even admin can use this method
+UserRouter.post("/createAdmin",
+isAuthenticated,
+hasRole({roles:[""], allowSameUser: false}),
+ async (req: Request, res: Response) => {
+
+    const { email, password} = req.body;
+  
+    if (!email || !password) {
+      return res.status(400).send({ error: "Missing fields" });
+    }
+  
+    try {
+      const userId = await createUserDoctor(email, password,"admin", false);
+      res.status(201).send({
+        userId
+      });
+    } catch (error) {
+      res.status(500).send({ error });
+    }
+  });
 
 UserRouter.get(
   "/:userId",
@@ -132,6 +153,25 @@ UserRouter.delete(
 
     try {
       const user = await disableUser(userId, true);
+      return res.status(200).send(user);
+    } catch (error) {
+      return res.status(500).send({ error: "something went wrong" });
+    }
+  }
+);
+
+UserRouter.patch(
+  "/enable/:userId",
+  isAuthenticated,
+  hasRole({
+    roles: ["admin"],
+    allowSameUser: false,
+  }),
+  async (req: Request, res: Response) => {
+    const { userId } = req.params;
+
+    try {
+      const user = await disableUser(userId, false);
       return res.status(200).send(user);
     } catch (error) {
       return res.status(500).send({ error: "something went wrong" });

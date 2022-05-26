@@ -32,7 +32,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.disableUser = exports.getAllUsers = exports.readUser = exports.createUserDoctor = exports.createUserPatient = void 0;
+exports.disableUser = exports.getAllUsers = exports.readUser = exports.createUserAdmin = exports.createUserDoctor = exports.createUserPatient = void 0;
 const admin = __importStar(require("firebase-admin"));
 const mapToUser = (user) => {
     const customClaims = (user.customClaims || { role: "" });
@@ -44,7 +44,7 @@ const mapToUser = (user) => {
         isDisabled: user.disabled,
     };
 };
-//This methos is used to create a new user Patient
+//This methos is used to create a new user Patient in Firebase
 const createUserPatient = (email, password, role, isDisabled) => __awaiter(void 0, void 0, void 0, function* () {
     const { uid } = yield admin.auth().createUser({
         email,
@@ -55,6 +55,7 @@ const createUserPatient = (email, password, role, isDisabled) => __awaiter(void 
     return user;
 });
 exports.createUserPatient = createUserPatient;
+//Thiss method creates a new user Doctor in Firebase
 const createUserDoctor = (email, password, role, isDisabled) => __awaiter(void 0, void 0, void 0, function* () {
     const { uid } = yield admin.auth().createUser({
         email,
@@ -65,6 +66,16 @@ const createUserDoctor = (email, password, role, isDisabled) => __awaiter(void 0
     return user;
 });
 exports.createUserDoctor = createUserDoctor;
+const createUserAdmin = (email, password, role, isDisabled) => __awaiter(void 0, void 0, void 0, function* () {
+    const { uid } = yield admin.auth().createUser({
+        email,
+        password
+    });
+    yield admin.auth().setCustomUserClaims(uid, { role, isDisabled });
+    const user = (0, exports.readUser)(uid);
+    return user;
+});
+exports.createUserAdmin = createUserAdmin;
 // UserProfileModule -> CRU
 // MedicalHistoryModule -> CRU
 // ContactInfoModule -> CRU
