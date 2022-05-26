@@ -21,10 +21,27 @@ exports.DoctorRouter.post("/create", isAuthenticated_1.isAuthenticated, (0, hasR
     const doctor = yield (0, doctor_services_1.createDoctor)(especialization, profesionalLicence, ProfileId);
     res.status(201).send(doctor);
 }));
-//List all of appointments from an specific doctor
-exports.DoctorRouter.get("/listAppointments/:doctorId", isAuthenticated_1.isAuthenticated, (0, hasRole_1.hasRole)({ roles: [""], allowSameUser: true }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { doctorId } = req.params;
-    const listAppointments = yield (0, appointment_service_1.readAllDoctorAppointments)(+doctorId);
+//List all of appointments from an specific doctor you NEED to provide a doctor id and you may provide the date or patientid to filter by them, you can add ASC or DESC as a param too
+exports.DoctorRouter.get("/listAppointments/:order?", isAuthenticated_1.isAuthenticated, (0, hasRole_1.hasRole)({ roles: [""], allowSameUser: true }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let { order } = req.params;
+    const { DoctorId, date, PatientId } = JSON.parse(req.query.where || "{}");
+    const where = { DoctorId, date, PatientId };
+    if (!where.DoctorId) {
+        res.send("Need doctor id");
+    }
+    if (!where.date) {
+        delete where.date;
+    }
+    if (!where.PatientId) {
+        delete where.PatientId;
+    }
+    if (!order) {
+        order = "ASC";
+    }
+    if (order.toUpperCase() !== "ASC" && order.toUpperCase() !== "DESC") {
+        order = "ASC";
+    }
+    const listAppointments = yield (0, appointment_service_1.readAllDoctorAppointments)(where, order);
     res.status(201).send(listAppointments);
 }));
 //Change hour or date from an appointment

@@ -1,4 +1,5 @@
 import {Router, Request, Response} from "express";
+import { Where } from "sequelize/types/utils";
 import { hasRole } from "../middlewares/hasRole";
 import { isAuthenticated } from "../middlewares/isAuthenticated";
 import { getAppointment, readAllDoctorAppointments, udpateDateAppointment } from "../services/appointment.service";
@@ -15,13 +16,24 @@ async (req: Request, res : Response) => {
     res.status(201).send(doctor);
 })
 
-//List all of appointments from an specific doctor
-DoctorRouter.get("/listAppointments/:doctorId",
+//List all of appointments from an specific doctor you NEED to provide a doctor id and you may provide the date or patientid to filter by them, you can add ASC or DESC as a param too
+DoctorRouter.get("/listAppointments/:order?",
  isAuthenticated,
  hasRole({roles:[""], allowSameUser: true}),
  async (req: Request, res : Response) => {
-     const {doctorId} = req.params;
-     const listAppointments = await readAllDoctorAppointments(+doctorId);
+     let {order} = req.params;
+
+     const {DoctorId, date, PatientId} = JSON.parse(req.query.where as string || "{}")
+     const where = {DoctorId, date, PatientId};
+
+     if(!where.DoctorId) { res.send("Need doctor id")}
+     if(!where.date) { delete where.date}
+     if(!where.PatientId) { delete where.PatientId}
+
+     if(!order) { order = "ASC"}
+     if(order.toUpperCase() !== "ASC" && order.toUpperCase() !== "DESC"){ order = "ASC"}
+
+     const listAppointments = await readAllDoctorAppointments(where,order);
      res.status(201).send(listAppointments);
  })
 

@@ -39,12 +39,19 @@ export const getAppointment = async (
  //////////////////////////////////////////////////   USER APPOINTMENTS //////////////////////////////////////////////////////////////
 //The user can read all of his appointments
 export const readAllPatientAppointments = async (
-    patientId : number
+    patientId : number,
+    limit?: number,
+    offset?: number
 ) => {
     try {
+        
         const listAppointment = await Appointment.findAll({where:{
             PatientId: patientId
-        }});
+            
+        },
+        limit:limit,
+        offset:offset
+    });
 
         return listAppointment;
 
@@ -95,12 +102,16 @@ export const cancelPatientAppointment = async (
 
 //Read all appointsment from a specific doctor
 export const readAllDoctorAppointments = async (
-    doctorId : number
+    where : any,
+    order? : any
 ) => {
     try {
-        const listAppointment = await Appointment.findAll({where:{
-            DoctorId: doctorId
-        }});
+
+        const listAppointment = await Appointment.findAll({
+            where,
+            order: [["id",order]]
+        
+    });
 
         return listAppointment;
 
@@ -135,11 +146,17 @@ export const udpateDateAppointment = async(
 
 ///////////////////////////////////////////////// ADMIN APPOINTMENTS ////////////////////////////////
 
-export const getAllAppointments = async() => {
+export const getAllAppointments = async(limit? : number, offset?: number) => {
     try{
-        const appointments = await Appointment.findAll({order: ["id"]});
+        const appointments = await Appointment.findAll({
+        order: ["id"],
+        limit:limit,
+        offset:offset
+    
+    });
 
         return appointments;
+
     }catch(error){
         return error;
     }

@@ -40,11 +40,14 @@ const getAppointment = (appointmentId) => __awaiter(void 0, void 0, void 0, func
 exports.getAppointment = getAppointment;
 //////////////////////////////////////////////////   USER APPOINTMENTS //////////////////////////////////////////////////////////////
 //The user can read all of his appointments
-const readAllPatientAppointments = (patientId) => __awaiter(void 0, void 0, void 0, function* () {
+const readAllPatientAppointments = (patientId, limit, offset) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const listAppointment = yield Appointment_model_1.Appointment.findAll({ where: {
                 PatientId: patientId
-            } });
+            },
+            limit: limit,
+            offset: offset
+        });
         return listAppointment;
     }
     catch (error) {
@@ -82,11 +85,12 @@ const cancelPatientAppointment = (appointmentId, status) => __awaiter(void 0, vo
 exports.cancelPatientAppointment = cancelPatientAppointment;
 ////////////////////////////////////////////////// DOCTOR APPOINTMENTS //////////////////////////////////////////
 //Read all appointsment from a specific doctor
-const readAllDoctorAppointments = (doctorId) => __awaiter(void 0, void 0, void 0, function* () {
+const readAllDoctorAppointments = (where, order) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const listAppointment = yield Appointment_model_1.Appointment.findAll({ where: {
-                DoctorId: doctorId
-            } });
+        const listAppointment = yield Appointment_model_1.Appointment.findAll({
+            where,
+            order: [["id", order]]
+        });
         return listAppointment;
     }
     catch (error) {
@@ -109,9 +113,13 @@ const udpateDateAppointment = (appointmentId, date, hour) => __awaiter(void 0, v
 });
 exports.udpateDateAppointment = udpateDateAppointment;
 ///////////////////////////////////////////////// ADMIN APPOINTMENTS ////////////////////////////////
-const getAllAppointments = () => __awaiter(void 0, void 0, void 0, function* () {
+const getAllAppointments = (limit, offset) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const appointments = yield Appointment_model_1.Appointment.findAll({ order: ["id"] });
+        const appointments = yield Appointment_model_1.Appointment.findAll({
+            order: ["id"],
+            limit: limit,
+            offset: offset
+        });
         return appointments;
     }
     catch (error) {

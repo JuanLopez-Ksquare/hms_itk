@@ -28,10 +28,18 @@ exports.PatientRouter.post("/createAppointment", isAuthenticated_1.isAuthenticat
     const appointment = yield (0, appointment_service_1.createAppointment)(date, hour, motive, "Pending", PatientId, DoctorId);
     res.status(201).send(appointment);
 }));
-//Route that can be used to access all of the appointments of a patient, can only be accessed by an admin or by the usesr themself
+//Route that can be used to access all of the appointments of a patient, can only be accessed by an admin or by the usesr themself and you can paginate from here if you want sending query params of limit and offset
+//Limit and offset have defaults values in the case the user does not send a default value
 exports.PatientRouter.get("/listAppointments/:patientId", isAuthenticated_1.isAuthenticated, (0, hasRole_1.hasRole)({ roles: [""], allowSameUser: true }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { patientId } = req.params;
-    const listAppointments = yield (0, appointment_service_1.readAllPatientAppointments)(+patientId);
+    let { limit, offset } = req.query;
+    if (!limit) {
+        limit = "10";
+    }
+    if (!offset) {
+        offset = "0";
+    }
+    const listAppointments = yield (0, appointment_service_1.readAllPatientAppointments)(+patientId, +limit, +offset);
     res.status(201).send(listAppointments);
 }));
 //This route it is used to get ONE specific appointment from a patient, can only be accessed by the user themself

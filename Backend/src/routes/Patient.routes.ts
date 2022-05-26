@@ -26,13 +26,20 @@ async (req: Request, res: Response) => {
     res.status(201).send(appointment);
 })
 
-//Route that can be used to access all of the appointments of a patient, can only be accessed by an admin or by the usesr themself
+//Route that can be used to access all of the appointments of a patient, can only be accessed by an admin or by the usesr themself and you can paginate from here if you want sending query params of limit and offset
+//Limit and offset have defaults values in the case the user does not send a default value
 PatientRouter.get("/listAppointments/:patientId",
  isAuthenticated,
  hasRole({roles:[""], allowSameUser: true}),
  async (req: Request, res : Response) => {
      const {patientId} = req.params;
-     const listAppointments = await readAllPatientAppointments(+patientId);
+     let {limit, offset} = req.query;
+
+     if(!limit) { limit = "10"}
+     if(!offset) {offset = "0"}
+
+     
+     const listAppointments = await readAllPatientAppointments(+patientId,+limit,+offset);
      res.status(201).send(listAppointments);
  })
 
