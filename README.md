@@ -46,6 +46,8 @@ In this model we're handling the especific data of the patient so here we can ge
 interface Patient {
   id: number; //Primary key autoincremental
   idProfile: number; //ForeignKey from the profile model
+  age: number;
+  gender: string;
   medicalHistory: MedicalHistory; //
 }
 ```
@@ -87,6 +89,6 @@ interface Appointments {
   createdOn: string; //TIMESTAMP
   date: string; //TIMESTAMP
   motive: string; //varchar(200)
-  isActive: boolean; //boolean
+  status: string; //varchar(20)
 }
 ```
