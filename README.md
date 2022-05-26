@@ -1,3 +1,27 @@
+## How to run the project
+
+### Install dependencies
+
+npm install
+
+npm install -D
+
+### Creating the database
+
+You need to log into postgres and create you database with the name of your preference since you are gonna be using it in the env file
+
+### Creating the .env file
+
+You will need to create your own .env file with the corresponding variables to be able to access your DBM, if you want to access all the methods you need to add a super user here
+
+### Command to run it
+
+npm run dev
+
+### Postman Collection
+
+https://www.getpostman.com/collections/0160cc41884ecde226c8
+
 ## Data Modeling Definition
 
 ### Type Role
@@ -19,7 +43,7 @@ interface User {
   password: string; //varchar(20)
   createdOn: string; //TIMESTAMP
   lastLogin: string; //TIMESTAMP
-  isDeleted: boolean;
+  isDisabled: boolean;
   role: Role; //Varchar(20)
 }
 ```
