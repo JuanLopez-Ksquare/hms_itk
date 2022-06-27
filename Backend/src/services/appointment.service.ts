@@ -1,5 +1,7 @@
-import { where } from "sequelize/types";
 import { Appointment } from "../models/Appointment.model";
+import { Doctor } from "../models/Doctor.model";
+import { Patient } from "../models/Patient.model";
+import { Profile } from "../models/Profile.model";
 
 export const createAppointment = async (
     date: Date,
@@ -59,6 +61,36 @@ export const readAllPatientAppointments = async (
         return error;
     }
 }
+
+//DOUBLE JOIN 
+export const readAllDataPatientAppointments = async ( id:number
+    ) => {
+        try {
+            const listAppointment = await Appointment.findAll({where:{ 
+                PatientId : id,
+            },
+            include:[{
+                model: Patient,
+                required:true,
+                include:[
+                    Profile
+                ]
+                
+            },{
+                model: Doctor,
+                required:true,
+                include:[
+                    Profile
+                ]
+            }]
+        });
+    
+            return listAppointment;
+    
+        } catch (error) {
+            return error;
+        }
+    }
 
 //The user can read an specific appointment, you need to give the user id and then the appointment id
 export const readPatientAppointment = async (
@@ -142,22 +174,72 @@ export const udpateDateAppointment = async(
     }
 }
 
+export const readAllDataDoctorAppointments = async ( id:number
+    ) => {
+        try {
+            const listAppointment = await Appointment.findAll({where:{ 
+                DoctorId : id
+            },
+            include:[{
+                model: Patient,
+                required:true,
+                include:[
+                    Profile
+                ]
+                
+            },{
+                model: Doctor,
+                required:true,
+                include:[
+                    Profile
+                ]
+            }]
+        });
+    
+            return listAppointment;
+    
+        } catch (error) {
+            return error;
+        }
+    }
+
 
 
 ///////////////////////////////////////////////// ADMIN APPOINTMENTS ////////////////////////////////
 
 export const getAllAppointments = async(limit? : number, offset?: number) => {
-    try{
         const appointments = await Appointment.findAll({
         order: ["id"],
         limit:limit,
         offset:offset
-    
     });
-
         return appointments;
-
-    }catch(error){
-        return error;
-    }
 }
+
+export const readAllDataAdminAppointments = async (
+    ) => {
+        try {
+            const listAppointment = await Appointment.findAll({where:{   
+            },
+            include:[{
+                model: Patient,
+                required:true,
+                include:[
+                    Profile
+                ]
+                
+            },{
+                model: Doctor,
+                required:true,
+                include:[
+                    Profile
+                ]
+            }]
+        });
+    
+            return listAppointment;
+    
+        } catch (error) {
+            return error;
+        }
+    }

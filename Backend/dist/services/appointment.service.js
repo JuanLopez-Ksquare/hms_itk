@@ -9,8 +9,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllAppointments = exports.udpateDateAppointment = exports.readAllDoctorAppointments = exports.cancelPatientAppointment = exports.readPatientAppointment = exports.readAllPatientAppointments = exports.getAppointment = exports.createAppointment = void 0;
+exports.readAllDataAdminAppointments = exports.getAllAppointments = exports.readAllDataDoctorAppointments = exports.udpateDateAppointment = exports.readAllDoctorAppointments = exports.cancelPatientAppointment = exports.readPatientAppointment = exports.readAllDataPatientAppointments = exports.readAllPatientAppointments = exports.getAppointment = exports.createAppointment = void 0;
 const Appointment_model_1 = require("../models/Appointment.model");
+const Doctor_model_1 = require("../models/Doctor.model");
+const Patient_model_1 = require("../models/Patient.model");
+const Profile_model_1 = require("../models/Profile.model");
 const createAppointment = (date, hour, motive, status, PatientId, DoctorId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const appointment = yield Appointment_model_1.Appointment.create({
@@ -55,6 +58,33 @@ const readAllPatientAppointments = (patientId, limit, offset) => __awaiter(void 
     }
 });
 exports.readAllPatientAppointments = readAllPatientAppointments;
+//DOUBLE JOIN 
+const readAllDataPatientAppointments = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const listAppointment = yield Appointment_model_1.Appointment.findAll({ where: {
+                PatientId: id,
+            },
+            include: [{
+                    model: Patient_model_1.Patient,
+                    required: true,
+                    include: [
+                        Profile_model_1.Profile
+                    ]
+                }, {
+                    model: Doctor_model_1.Doctor,
+                    required: true,
+                    include: [
+                        Profile_model_1.Profile
+                    ]
+                }]
+        });
+        return listAppointment;
+    }
+    catch (error) {
+        return error;
+    }
+});
+exports.readAllDataPatientAppointments = readAllDataPatientAppointments;
 //The user can read an specific appointment, you need to give the user id and then the appointment id
 const readPatientAppointment = (patientId, appointmentId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -112,18 +142,63 @@ const udpateDateAppointment = (appointmentId, date, hour) => __awaiter(void 0, v
     }
 });
 exports.udpateDateAppointment = udpateDateAppointment;
-///////////////////////////////////////////////// ADMIN APPOINTMENTS ////////////////////////////////
-const getAllAppointments = (limit, offset) => __awaiter(void 0, void 0, void 0, function* () {
+const readAllDataDoctorAppointments = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const appointments = yield Appointment_model_1.Appointment.findAll({
-            order: ["id"],
-            limit: limit,
-            offset: offset
+        const listAppointment = yield Appointment_model_1.Appointment.findAll({ where: {
+                DoctorId: id
+            },
+            include: [{
+                    model: Patient_model_1.Patient,
+                    required: true,
+                    include: [
+                        Profile_model_1.Profile
+                    ]
+                }, {
+                    model: Doctor_model_1.Doctor,
+                    required: true,
+                    include: [
+                        Profile_model_1.Profile
+                    ]
+                }]
         });
-        return appointments;
+        return listAppointment;
     }
     catch (error) {
         return error;
     }
 });
+exports.readAllDataDoctorAppointments = readAllDataDoctorAppointments;
+///////////////////////////////////////////////// ADMIN APPOINTMENTS ////////////////////////////////
+const getAllAppointments = (limit, offset) => __awaiter(void 0, void 0, void 0, function* () {
+    const appointments = yield Appointment_model_1.Appointment.findAll({
+        order: ["id"],
+        limit: limit,
+        offset: offset
+    });
+    return appointments;
+});
 exports.getAllAppointments = getAllAppointments;
+const readAllDataAdminAppointments = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const listAppointment = yield Appointment_model_1.Appointment.findAll({ where: {},
+            include: [{
+                    model: Patient_model_1.Patient,
+                    required: true,
+                    include: [
+                        Profile_model_1.Profile
+                    ]
+                }, {
+                    model: Doctor_model_1.Doctor,
+                    required: true,
+                    include: [
+                        Profile_model_1.Profile
+                    ]
+                }]
+        });
+        return listAppointment;
+    }
+    catch (error) {
+        return error;
+    }
+});
+exports.readAllDataAdminAppointments = readAllDataAdminAppointments;

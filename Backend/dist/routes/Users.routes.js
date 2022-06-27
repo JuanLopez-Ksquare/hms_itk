@@ -77,7 +77,7 @@ exports.UserRouter.get("/:userId", isAuthenticated_1.isAuthenticated, (0, hasRol
     }
     catch (error) {
         console.error(error);
-        res.status(500).send({ error: "something went wrong" });
+        res.status(500).send({ error: "fede went wrong" });
     }
 }));
 exports.UserRouter.get("/", isAuthenticated_1.isAuthenticated, (0, hasRole_1.hasRole)({

@@ -37,7 +37,7 @@ export const createUserPatient = async (
     password
   });
   await admin.auth().setCustomUserClaims(uid, { role, isDisabled });
-
+  
   const user = readUser(uid);
 
   return user;

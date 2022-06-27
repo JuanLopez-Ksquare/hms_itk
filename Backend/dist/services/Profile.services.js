@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createProfile = void 0;
+exports.readProfile = exports.createProfile = void 0;
 const Profile_model_1 = require("../models/Profile.model");
 //With this function you can create a generic profile for any user since the roles does not matter at this point
 const createProfile = (name, lastName, phoneNumber, userId) => __awaiter(void 0, void 0, void 0, function* () {
@@ -27,3 +27,15 @@ const createProfile = (name, lastName, phoneNumber, userId) => __awaiter(void 0,
     }
 });
 exports.createProfile = createProfile;
+const readProfile = (uid) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const profile = yield Profile_model_1.Profile.findOne({ where: {
+                userId: uid
+            } });
+        return profile;
+    }
+    catch (error) {
+        return error;
+    }
+});
+exports.readProfile = readProfile;

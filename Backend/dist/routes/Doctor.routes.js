@@ -16,7 +16,8 @@ const isAuthenticated_1 = require("../middlewares/isAuthenticated");
 const appointment_service_1 = require("../services/appointment.service");
 const doctor_services_1 = require("../services/doctor.services");
 exports.DoctorRouter = (0, express_1.Router)();
-exports.DoctorRouter.post("/create", isAuthenticated_1.isAuthenticated, (0, hasRole_1.hasRole)({ roles: ["admin"], allowSameUser: false }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+//Creates a doctor 
+exports.DoctorRouter.post("/create/:userId", isAuthenticated_1.isAuthenticated, (0, hasRole_1.hasRole)({ roles: ["admin"], allowSameUser: true }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { especialization, profesionalLicence, ProfileId } = req.body;
     const doctor = yield (0, doctor_services_1.createDoctor)(especialization, profesionalLicence, ProfileId);
     res.status(201).send(doctor);
@@ -45,7 +46,7 @@ exports.DoctorRouter.get("/listAppointments/:order?", isAuthenticated_1.isAuthen
     res.status(201).send(listAppointments);
 }));
 //Change hour or date from an appointment
-exports.DoctorRouter.patch("/updateAppointment/:appointmentId", isAuthenticated_1.isAuthenticated, (0, hasRole_1.hasRole)({ roles: [""], allowSameUser: true }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.DoctorRouter.patch("/updateAppointment/:appointmentId/:userId", isAuthenticated_1.isAuthenticated, (0, hasRole_1.hasRole)({ roles: [""], allowSameUser: true }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { appointmentId } = req.params;
     let { date, hour } = req.body;
     const originalAppointment = yield (0, appointment_service_1.getAppointment)(+appointmentId);
@@ -57,4 +58,14 @@ exports.DoctorRouter.patch("/updateAppointment/:appointmentId", isAuthenticated_
     }
     const appointment = yield (0, appointment_service_1.udpateDateAppointment)(+appointmentId, date, hour);
     res.status(201).send(yield (0, appointment_service_1.getAppointment)(+appointmentId));
+}));
+exports.DoctorRouter.get("/doctor/:profileId/:userId", isAuthenticated_1.isAuthenticated, (0, hasRole_1.hasRole)({ roles: ["admin"], allowSameUser: true }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { profileId } = req.params;
+    const doctor = yield (0, doctor_services_1.getOneDoctor)(+profileId);
+    res.status(201).send(doctor);
+}));
+exports.DoctorRouter.get("/appointments/all/:id/:userId", isAuthenticated_1.isAuthenticated, (0, hasRole_1.hasRole)({ roles: ["admin"], allowSameUser: true }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const doctor = yield (0, appointment_service_1.readAllDataDoctorAppointments)(+id);
+    res.status(201).send(doctor);
 }));

@@ -35,6 +35,7 @@ const Profile_routes_1 = require("./routes/Profile.routes");
 const Patient_routes_1 = require("./routes/Patient.routes");
 const Doctor_routes_1 = require("./routes/Doctor.routes");
 const Admin_routes_1 = require("./routes/Admin.routes");
+const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 admin.initializeApp();
@@ -45,6 +46,7 @@ const db_password = process.env.DB_PASSWORD;
 const db_hostname = process.env.DB_HOSTNAME;
 //Middleware
 app.use(express_1.default.json());
+app.use((0, cors_1.default)());
 //Routes
 app.use("/users", Users_routes_1.UserRouter);
 app.use("/profile", Profile_routes_1.ProfileRouter);

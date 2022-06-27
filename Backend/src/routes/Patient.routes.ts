@@ -1,13 +1,13 @@
 import {Router, Request, Response} from "express";
 import { hasRole } from "../middlewares/hasRole";
 import { isAuthenticated } from "../middlewares/isAuthenticated";
-import { cancelPatientAppointment, createAppointment, readAllPatientAppointments, readPatientAppointment } from "../services/appointment.service";
-import { createPatient } from "../services/patient.services";
+import { cancelPatientAppointment, createAppointment, readAllDataPatientAppointments, readAllPatientAppointments, readPatientAppointment } from "../services/appointment.service";
+import { createPatient, getOnePatient } from "../services/patient.services";
 
 export const PatientRouter = Router();
 
 //Creating a patient
-PatientRouter.post("/create",
+PatientRouter.post("/create/:userId",
 isAuthenticated,
 hasRole({roles: ["admin"], allowSameUser : true}),
 async (req: Request, res: Response) => {
@@ -17,9 +17,9 @@ async (req: Request, res: Response) => {
 })
 
 //Route to access the create appointment method, we need to be an admin or be the user logged in to the app
-PatientRouter.post("/createAppointment", 
+PatientRouter.post("/createAppointment/:userId", 
 isAuthenticated,
-hasRole({roles : ["admin", "patient"], allowSameUser : true}),
+hasRole({roles : ["admin"], allowSameUser : true}),
 async (req: Request, res: Response) => {
     const {date, hour, motive, PatientId, DoctorId} = req.body;
     const appointment = await createAppointment(date,hour,motive,"Pending", PatientId, DoctorId);
@@ -28,7 +28,7 @@ async (req: Request, res: Response) => {
 
 //Route that can be used to access all of the appointments of a patient, can only be accessed by an admin or by the usesr themself and you can paginate from here if you want sending query params of limit and offset
 //Limit and offset have defaults values in the case the user does not send a default value
-PatientRouter.get("/listAppointments/:patientId",
+PatientRouter.get("/listAppointments/:patientId/:userId",
  isAuthenticated,
  hasRole({roles:[""], allowSameUser: true}),
  async (req: Request, res : Response) => {
@@ -44,7 +44,7 @@ PatientRouter.get("/listAppointments/:patientId",
  })
 
 //This route it is used to get ONE specific appointment from a patient, can only be accessed by the user themself
- PatientRouter.get("/readAppointment/:patientId/:appointmentId",
+ PatientRouter.get("/readAppointment/:patientId/:appointmentId/:userId",
  isAuthenticated,
  hasRole({roles:[""], allowSameUser: true}),
  async (req: Request, res : Response) => {
@@ -53,7 +53,7 @@ PatientRouter.get("/listAppointments/:patientId",
      res.status(201).send(listAppointments);
  })
 
- PatientRouter.delete("/cancelAppointment/:appointmentId",
+ PatientRouter.delete("/cancelAppointment/:appointmentId/:userId",
  isAuthenticated,
  hasRole({roles:[""], allowSameUser: true}),
  async (req: Request, res : Response) => {
@@ -62,4 +62,42 @@ PatientRouter.get("/listAppointments/:patientId",
      res.status(201).send(listAppointments);
  })
 
+ PatientRouter.get("/patient/:profileId/:userId",
+ isAuthenticated,
+ hasRole({roles:["admin"], allowSameUser: true}),
+ async (req: Request, res : Response) => {
+     const {profileId} = req.params;
+     const patient = await getOnePatient(+profileId);
+     res.status(201).send(patient);
+ })
+
+PatientRouter.get("/appointments/all/:id/:userId",
+isAuthenticated,
+hasRole({roles: ["admin"], allowSameUser:true}),
+async (req: Request, res:Response) => {
+    try{
+        const {id} = req.params;
+        const getAllAppointments = await readAllDataPatientAppointments(+id);
+
+        res.status(200).send(getAllAppointments);
+    }catch(error){
+        res.send(error)
+    }
+}
+)
+
+PatientRouter.get("/appointments/all/history/:id/:userId",
+isAuthenticated,
+hasRole({roles: ["admin"], allowSameUser:true}),
+async (req: Request, res:Response) => {
+    try{
+        const {id} = req.params;
+        const getAllAppointments = await readAllDataPatientAppointments(+id);
+
+        res.status(200).send(getAllAppointments);
+    }catch(error){
+        res.send(error)
+    }
+}
+)
 

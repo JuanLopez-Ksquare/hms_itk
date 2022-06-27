@@ -17,3 +17,14 @@ export const createProfile = async (name:string, lastName: string, phoneNumber:s
         return error;
     }
 }
+
+export const readProfile = async (uid: string) => {
+    try {
+        const profile = await Profile.findOne({where: {
+            userId: uid
+        }})
+        return profile
+    } catch (error) {
+        return error
+    }
+}

@@ -2,14 +2,15 @@ import {Router, Request, Response} from "express";
 import { Where } from "sequelize/types/utils";
 import { hasRole } from "../middlewares/hasRole";
 import { isAuthenticated } from "../middlewares/isAuthenticated";
-import { getAppointment, readAllDoctorAppointments, udpateDateAppointment } from "../services/appointment.service";
-import { createDoctor } from "../services/doctor.services";
+import { getAppointment, readAllDataDoctorAppointments, readAllDoctorAppointments, udpateDateAppointment } from "../services/appointment.service";
+import { createDoctor, getOneDoctor } from "../services/doctor.services";
 
 export const DoctorRouter = Router();
 
-DoctorRouter.post("/create", 
+//Creates a doctor 
+DoctorRouter.post("/create/:userId", 
 isAuthenticated,
-hasRole({roles: ["admin"], allowSameUser:false}),
+hasRole({roles: ["admin"], allowSameUser:true}),
 async (req: Request, res : Response) => {
     const {especialization, profesionalLicence, ProfileId} = req.body;
     const doctor = await createDoctor(especialization,profesionalLicence,ProfileId);
@@ -38,12 +39,13 @@ DoctorRouter.get("/listAppointments/:order?",
  })
 
  //Change hour or date from an appointment
- DoctorRouter.patch("/updateAppointment/:appointmentId",
- isAuthenticated,
- hasRole({roles:[""], allowSameUser: true}),
- async (req: Request, res : Response) => {
-     const { appointmentId} = req.params;
-     let { date, hour} = req.body;
+ DoctorRouter.patch("/updateAppointment/:appointmentId/:userId",
+ 
+    isAuthenticated,
+    hasRole({roles:[""], allowSameUser: true}),
+    async (req: Request, res : Response) => {
+        const { appointmentId} = req.params;
+        let { date, hour} = req.body;
 
     const originalAppointment : any = await getAppointment(+appointmentId);
 
@@ -54,4 +56,22 @@ DoctorRouter.get("/listAppointments/:order?",
 
      res.status(201).send(await getAppointment(+appointmentId));
 
+ })
+
+ DoctorRouter.get("/doctor/:profileId/:userId",
+ isAuthenticated,
+ hasRole({roles:["admin"], allowSameUser: true}),
+ async (req: Request, res : Response) => {
+     const {profileId} = req.params;
+     const doctor = await getOneDoctor(+profileId);
+     res.status(201).send(doctor);
+ })
+
+ DoctorRouter.get("/appointments/all/:id/:userId",
+ isAuthenticated,
+ hasRole({roles:["admin"], allowSameUser: true}),
+ async (req: Request, res : Response) => {
+     const {id} = req.params;
+     const doctor = await readAllDataDoctorAppointments(+id);
+     res.status(201).send(doctor);
  })

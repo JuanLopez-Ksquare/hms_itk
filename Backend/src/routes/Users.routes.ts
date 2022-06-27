@@ -92,7 +92,7 @@ UserRouter.get(
       return res.status(200).send(user);
     } catch (error) {
       console.error(error);
-      res.status(500).send({ error: "something went wrong" });
+      res.status(500).send({ error: "fede went wrong" });
     }
   }
 );

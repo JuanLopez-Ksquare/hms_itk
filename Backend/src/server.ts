@@ -7,6 +7,7 @@ import { ProfileRouter } from "./routes/Profile.routes";
 import { PatientRouter } from "./routes/Patient.routes";
 import { DoctorRouter } from "./routes/Doctor.routes";
 import { AdminRouter } from "./routes/Admin.routes";
+import cors from "cors"
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ const db_hostname = <string>process.env.DB_HOSTNAME;
 
 //Middleware
 app.use(express.json());
+app.use(cors());
 
 //Routes
 app.use("/users",UserRouter);
