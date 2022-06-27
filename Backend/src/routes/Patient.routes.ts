@@ -101,3 +101,11 @@ async (req: Request, res:Response) => {
 }
 )
 
+PatientRouter.get("/readAppointment/:appointmentId/:userId",
+isAuthenticated,
+hasRole({roles:[""], allowSameUser: true}),
+async (req: Request, res : Response) => {
+    const {patientId, appointmentId} = req.params;
+    const listAppointments = await readPatientAppointment(+patientId, +appointmentId);
+    res.status(201).send(listAppointments);
+})
