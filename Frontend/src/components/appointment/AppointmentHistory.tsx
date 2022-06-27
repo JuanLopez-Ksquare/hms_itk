@@ -23,16 +23,6 @@ export const AppointmentHistory = () => {
   const role = useAppSelector(selectRole);
   const appointments = useAppSelector(selectAppointments);
 
-  type FullAppointment = {
-    id: number;
-    motive: String;
-    date: Date;
-    hour: String;
-    status: String;
-    doctor: String;
-    patient: String;
-  };
-
   useEffect(() => {
     if (appointmentStatus === "idle") {
       if (role === "admin") {

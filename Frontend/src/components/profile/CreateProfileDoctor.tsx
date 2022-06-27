@@ -42,46 +42,66 @@ export const CreateProfileDoctor = () => {
   return (
     <div>
       <Navbar />
-      Create Profile
+      <h1>Create Profile</h1>
       <form onSubmit={handleSubmit(registerProfile)}>
-        <label>Name:</label>
-        <input
-          type="text"
-          placeholder="Name"
-          {...register("name")}
-          required={true}
-        ></input>
-        <label>LastName:</label>
-        <input
-          type="text"
-          placeholder="LastName"
-          {...register("lastName")}
-          required={true}
-        ></input>
-        <label>Phone Number:</label>
-        <input
-          type="text"
-          placeholder="Phone"
-          {...register("phoneNumber")}
-          required={true}
-        ></input>
-        <br />
-        <br />
-        <label>Especialization:</label>
-        <input
-          type="text"
-          placeholder="Male/Female"
-          {...register("especialization")}
-          required={true}
-        ></input>
-        <label>ProfesionalLicence:</label>
-        <input
-          type="text"
-          placeholder="1"
-          {...register("profesionalLicence")}
-          required={true}
-        ></input>
-        <input type={"submit"} value="Submit"></input>
+        <div className="createprofile-all-container">
+          <div className="createprofile-container">
+            <div className="creaprofile-alone">
+              <label>Name:</label>
+              <input
+                type="text"
+                placeholder="Name"
+                {...register("name")}
+                required={true}
+              ></input>
+            </div>
+            <div className="creaprofile-alone">
+              <label>LastName:</label>
+              <input
+                type="text"
+                placeholder="LastName"
+                {...register("lastName")}
+                required={true}
+              ></input>
+            </div>
+            <div className="creaprofile-alone">
+              <label>Phone Number:</label>
+              <input
+                type="text"
+                placeholder="Phone"
+                {...register("phoneNumber")}
+                required={true}
+              ></input>
+            </div>
+          </div>
+
+          <div className="createprofile-container">
+            <div className="creaprofile-alone">
+              <label>Especialization:</label>
+              <input
+                type="text"
+                placeholder="Male/Female"
+                {...register("especialization")}
+                required={true}
+              ></input>
+            </div>
+            <div className="creaprofile-alone">
+              <label>ProfesionalLicence:</label>
+              <input
+                type="text"
+                placeholder="1"
+                {...register("profesionalLicence")}
+                required={true}
+              ></input>
+            </div>
+          </div>
+          <br />
+          <input
+            type={"submit"}
+            value="Submit"
+            className="profile-submitinput"
+          ></input>
+        </div>
       </form>
     </div>
   );

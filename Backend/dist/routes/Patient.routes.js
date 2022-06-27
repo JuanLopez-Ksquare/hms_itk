@@ -78,3 +78,8 @@ exports.PatientRouter.get("/appointments/all/history/:id/:userId", isAuthenticat
         res.send(error);
     }
 }));
+exports.PatientRouter.get("/readAppointment/:appointmentId/:userId", isAuthenticated_1.isAuthenticated, (0, hasRole_1.hasRole)({ roles: [""], allowSameUser: true }), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { patientId, appointmentId } = req.params;
+    const listAppointments = yield (0, appointment_service_1.readPatientAppointment)(+patientId, +appointmentId);
+    res.status(201).send(listAppointments);
+}));

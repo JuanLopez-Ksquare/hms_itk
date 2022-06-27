@@ -48,52 +48,72 @@ export const CreateProfilePatient = () => {
   return (
     <div>
       <Navbar />
-      Create Profile
+      <h1>Create Profile</h1>
       <form onSubmit={handleSubmit(registerProfile)}>
-        <label>Name:</label>
-        <input
-          type="text"
-          placeholder="Name"
-          {...register("name")}
-          required={true}
-        ></input>
-        <label>LastName:</label>
-        <input
-          type="text"
-          placeholder="LastName"
-          {...register("lastName")}
-        ></input>
-        <label>Phone Number:</label>
-        <input
-          type="text"
-          placeholder="Phone"
-          {...register("phoneNumber")}
-          required={true}
-        ></input>
-        <br />
-        <br />
-        <label>Age</label>
-        <input
-          type="number"
-          placeholder="25"
-          {...register("age")}
-          required={true}
-        ></input>
-        <label>Gender</label>
-        <input
-          type="text"
-          placeholder="Male/Female"
-          {...register("gender")}
-          required={true}
-        ></input>
-        <label>Medical History</label>
-        <input
-          type="number"
-          placeholder="1"
-          {...register("medicalHistory")}
-          required={true}
-        ></input>
-        <input type={"submit"} value="Submit"></input>
+        <div className="createprofile-all-container">
+          <div className="createprofile-container">
+            <div className="creaprofile-alone">
+              <label>Name:</label>
+              <input
+                type="text"
+                placeholder="Name"
+                {...register("name")}
+                required={true}
+              ></input>
+            </div>
+            <div className="creaprofile-alone">
+              <label>LastName:</label>
+              <input
+                type="text"
+                placeholder="LastName"
+                {...register("lastName")}
+              ></input>
+            </div>
+            <div className="creaprofile-alone">
+              <label>Phone Number:</label>
+              <input
+                type="text"
+                placeholder="Phone"
+                {...register("phoneNumber")}
+                required={true}
+              ></input>
+            </div>
+          </div>
+          <div className="createprofile-container">
+            <div className="creaprofile-alone">
+              <label>Age</label>
+              <input
+                type="number"
+                placeholder="25"
+                {...register("age")}
+                required={true}
+              ></input>
+            </div>
+            <div className="creaprofile-alone">
+              <label>Gender</label>
+              <input
+                type="text"
+                placeholder="Male/Female"
+                {...register("gender")}
+                required={true}
+              ></input>
+            </div>
+            <div className="creaprofile-alone">
+              <label>Medical History</label>
+              <input
+                type="number"
+                placeholder="1"
+                {...register("medicalHistory")}
+                required={true}
+              ></input>
+            </div>
+          </div>
+          <input
+            type={"submit"}
+            value="Submit"
+            className="profile-submitinput"
+          ></input>
+        </div>
       </form>
     </div>
   );

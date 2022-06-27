@@ -32,7 +32,15 @@ export const Dashboard = () => {
       <>
         {AuthComponent()?.role === "doctor" && String(profile) === "" && (
           <>
-            <Link to="/profile/createDoctor">Create Profile</Link>
+            <div className="dashboard-container-one">
+              <label className="dashboard-label">
+                It seems you have not created a profile, clic on this button so
+                you can start using everything we have to offer!
+              </label>
+              <div className="dashboard-alone-container">
+                <Link to="/profile/createDoctor">Create Profile</Link>
+              </div>
+            </div>
           </>
         )}
       </>
