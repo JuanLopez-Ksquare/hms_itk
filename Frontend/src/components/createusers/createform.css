@@ -1,0 +1,35 @@
+.createform-container{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.create-form{
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+width: 100%;
+height: 55vh;
+text-align: left;
+}
+
+.create-image{
+    width: 170px;
+    height: 170px;
+    margin-bottom: 30px;
+}
+
+.createform-input{
+    width: 100%;
+    height: 30px;
+    margin-top: 10px;
+}
+
+.createform-main-label{
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 50px;
+
+}

@@ -1,0 +1,71 @@
+.home-container{
+    display: flex;
+    flex-direction: column;
+    height: 90.6vh;
+    width: 98%;
+    align-items: center;
+}
+
+.home-iconsearchbar{
+    display: flex;
+    width: 100%;
+    height: 100px;
+    justify-content:space-between;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
+    align-items: center;
+}
+
+.home-hospitalicon{
+height: 100px;
+margin-left: 200px;
+}
+
+.home-input{
+    border-radius: 10px;
+    height: 40px;
+    width: 400px;
+    margin-right: 200px;
+}
+
+.home-centerbanner{
+    display: flex;
+    background-image: url("../../images/homebanner.png");
+    width: 80%;
+    height: 150%;
+    background-repeat: no-repeat;
+    justify-content: start;
+    background-size: cover;
+    margin-top: 50px;
+    align-items:center;
+    font-size: 30px;
+    border-radius: 5px;
+}
+
+h1{
+    margin: 40px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #22577E;
+    font-style: italic;
+}
+h2{
+    color: #22577E;
+}
+
+.home-cards{
+    width: 80%;
+    height: 50%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #95D1CC;
+    border-radius: 10px;
+}
+
+.home-h2-tula{
+    color: #FAFFAF;
+font-size: 30px;
+}

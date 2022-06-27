@@ -1,0 +1,13 @@
+.appointments-label{
+ font-size: 50px;   
+ font-weight: bold;
+ margin-bottom: 30px;
+ color: #22577E;
+}
+
+.appointments-button{
+   padding: 10px;
+   font-size: 20px;
+   margin-top: 10px;
+   color: #22577E;
+}

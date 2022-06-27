@@ -1,0 +1,46 @@
+.navbar{
+    display: flex;
+    background-color: #95D1CC;
+    height: 50px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.navbar-logup{
+    display: flex;
+    justify-content: space-between;
+    width: 150px;
+}
+
+.navbar-button{
+    background: none;
+    color: #22577E;
+    border-style: none;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.navbar-button-logup{
+    background: none;
+    color: #22577E;
+    border-style: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.navbar-button-logup-tula{
+color: #FAFFAF;
+font-size: 20px;
+}
+
+.navbar-button-dashout{
+    background: none;
+    color: #22577E;
+    border-style: none;
+    font-size: 20px;
+    cursor: pointer;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+

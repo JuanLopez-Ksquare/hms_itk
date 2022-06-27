@@ -1,0 +1,72 @@
+.profile-container{
+    width: auto;
+    display: flex;
+    height: 80vh;
+    align-items: left;
+    flex-direction: column;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.profile-banner{
+    height: 30vh;
+    width: 95%;
+    border-style: solid;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    text-align: left;
+    background-color: #5584AC;
+    border-radius: 10px;
+    color: #22577E
+}
+
+.profile-about{
+    margin-top: 20px;
+    height: 50vh;
+    width: 50%;
+    border-style: solid;
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    border-radius: 10px;
+    background-color: #95D1CC;
+    color: #22577E;
+}
+
+.profile-image{
+    width: 250px;
+    height: 250px;
+    margin-left: 30px;
+}
+
+.profile-banner-name{
+    font-size: 40px;
+    margin-left: 20px;
+    font-weight: bold;
+}
+.profile-banner-role{
+    font-size: 30px;
+    margin-left: 30px;
+}
+
+.profile-about-title{
+    font-size: 40px;
+    font-weight: bold;
+    margin: 20px;
+    text-align: left;
+}
+
+.profile-about-labels{
+font-size: 30px;
+text-align: left;
+margin-left: 20px;
+}
+
+.profile-about-input{
+    width: 200px;
+    margin-left: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 20px;
+}
